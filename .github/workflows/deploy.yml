@@ -52,5 +52,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }} 
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy dist/practice4/index.js --name practice5
+          command: deploy dist/practice4/index.js --name practice5 --compatibility-date 2026-02-19 --compatibility-flags nodejs_compat
     
