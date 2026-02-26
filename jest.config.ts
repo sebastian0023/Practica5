@@ -20,6 +20,10 @@ const config: Config = {
             },
         ],
     },
+    reporters: [
+        'default',
+        ['jest-junit', { outputDirectory: 'test-results', outputName: 'junit.xml' }],
+    ],
 }
 
 export default config
