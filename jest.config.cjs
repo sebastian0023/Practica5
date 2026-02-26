@@ -1,6 +1,5 @@
-import type { Config } from 'jest'
-
-const config: Config = {
+/** @type {import('jest').Config} */
+const config = {
     preset: 'ts-jest/presets/default-esm',
     testEnvironment: 'jsdom',
     extensionsToTreatAsEsm: ['.ts', '.tsx'],
@@ -16,6 +15,8 @@ const config: Config = {
                 useESM: true,
                 tsconfig: {
                     jsx: 'react-jsx',
+                    esModuleInterop: true,
+                    verbatimModuleSyntax: false,
                 },
             },
         ],
@@ -26,4 +27,4 @@ const config: Config = {
     ],
 }
 
-export default config
+module.exports = config
