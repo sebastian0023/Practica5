@@ -40,9 +40,6 @@ jobs:
     environment: dev
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
@@ -54,4 +51,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy --name practice5
+          command: deploy --config dist/practice4/wrangler.json --name practice5
