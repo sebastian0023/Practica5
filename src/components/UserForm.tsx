@@ -1,38 +1,37 @@
 import { useState } from 'react'
 
+export interface User {
+    id: number
+    name: string
+    hobbies: string
+    created_at: string
+}
+
 interface Props {
-    onSaved: () => void
+    onSaved: (user: User) => void
 }
 
 export default function UserForm({ onSaved }: Props) {
     const [name, setName] = useState('')
     const [hobbies, setHobbies] = useState('')
-    const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
 
-    async function handleSubmit(e: React.FormEvent) {
+    function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
         setError('')
         if (!name.trim() || !hobbies.trim()) {
             setError('Both fields are required.')
             return
         }
-        setLoading(true)
-        try {
-            const res = await fetch('/api/users', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: name.trim(), hobbies: hobbies.trim() }),
-            })
-            if (!res.ok) throw new Error('Failed to save.')
-            setName('')
-            setHobbies('')
-            onSaved()
-        } catch {
-            setError('Something went wrong. Please try again.')
-        } finally {
-            setLoading(false)
+        const user: User = {
+            id: Date.now(),
+            name: name.trim(),
+            hobbies: hobbies.trim(),
+            created_at: new Date().toISOString(),
         }
+        onSaved(user)
+        setName('')
+        setHobbies('')
     }
 
     return (
@@ -50,7 +49,6 @@ export default function UserForm({ onSaved }: Props) {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="e.g. Ana García"
-                        disabled={loading}
                     />
                 </div>
                 <div className="field">
@@ -61,12 +59,11 @@ export default function UserForm({ onSaved }: Props) {
                         onChange={(e) => setHobbies(e.target.value)}
                         placeholder="e.g. painting, hiking, coding…"
                         rows={3}
-                        disabled={loading}
                     />
                 </div>
                 {error && <p className="form-error">{error}</p>}
-                <button type="submit" className="btn-primary" disabled={loading}>
-                    {loading ? 'Saving…' : 'Save Profile'}
+                <button type="submit" className="btn-primary">
+                    Save Profile
                 </button>
             </form>
         </div>

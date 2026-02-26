@@ -1,10 +1,19 @@
 import { useState } from 'react'
 import UserForm from './components/UserForm'
+import type { User } from './components/UserForm'
 import UserList from './components/UserList'
 import './App.css'
 
 function App() {
-  const [refreshKey, setRefreshKey] = useState(0)
+  const [users, setUsers] = useState<User[]>([])
+
+  function handleSaved(user: User) {
+    setUsers((prev) => [user, ...prev])
+  }
+
+  function handleDelete(id: number) {
+    setUsers((prev) => prev.filter((u) => u.id !== id))
+  }
 
   return (
     <div className="app-wrapper">
@@ -16,8 +25,8 @@ function App() {
       </header>
 
       <main className="app-grid">
-        <UserForm onSaved={() => setRefreshKey((k) => k + 1)} />
-        <UserList refreshKey={refreshKey} />
+        <UserForm onSaved={handleSaved} />
+        <UserList users={users} onDelete={handleDelete} />
       </main>
     </div>
   )

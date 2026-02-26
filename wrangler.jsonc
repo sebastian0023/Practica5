@@ -16,12 +16,4 @@
 	"compatibility_flags": [
 		"nodejs_compat"
 	],
-	"d1_databases": [
-		{
-			"binding": "DB",
-			"database_name": "practice4-db",
-			"database_id": "e6cc3ba5-2372-46a9-a08c-d20590c81a7a",
-			"migrations_dir": "migrations"
-		}
-	]
 }

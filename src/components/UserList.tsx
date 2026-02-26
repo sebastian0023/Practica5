@@ -1,42 +1,11 @@
-import { useEffect, useState } from 'react'
-
-interface User {
-    id: number
-    name: string
-    hobbies: string
-    created_at: string
-}
+import type { User } from './UserForm'
 
 interface Props {
-    refreshKey: number
+    users: User[]
+    onDelete: (id: number) => void
 }
 
-export default function UserList({ refreshKey }: Props) {
-    const [users, setUsers] = useState<User[]>([])
-    const [loading, setLoading] = useState(true)
-    const [deletingId, setDeletingId] = useState<number | null>(null)
-
-    useEffect(() => {
-        setLoading(true)
-        fetch('/api/users')
-            .then((res) => res.json() as Promise<User[]>)
-            .then((data) => setUsers(data))
-            .catch(console.error)
-            .finally(() => setLoading(false))
-    }, [refreshKey])
-
-    async function handleDelete(id: number) {
-        setDeletingId(id)
-        try {
-            await fetch(`/api/users/${id}`, { method: 'DELETE' })
-            setUsers((prev) => prev.filter((u) => u.id !== id))
-        } catch {
-            console.error('Failed to delete user')
-        } finally {
-            setDeletingId(null)
-        }
-    }
-
+export default function UserList({ users, onDelete }: Props) {
     return (
         <div className="module-card">
             <div className="module-header">
@@ -45,9 +14,7 @@ export default function UserList({ refreshKey }: Props) {
                 <span className="badge">{users.length}</span>
             </div>
 
-            {loading ? (
-                <p className="list-empty">Loading…</p>
-            ) : users.length === 0 ? (
+            {users.length === 0 ? (
                 <p className="list-empty">No profiles yet. Add one above!</p>
             ) : (
                 <ul className="user-list">
@@ -62,11 +29,10 @@ export default function UserList({ refreshKey }: Props) {
                             </div>
                             <button
                                 className="btn-delete"
-                                onClick={() => handleDelete(user.id)}
-                                disabled={deletingId === user.id}
+                                onClick={() => onDelete(user.id)}
                                 aria-label={`Delete ${user.name}`}
                             >
-                                {deletingId === user.id ? '…' : '🗑'}
+                                🗑
                             </button>
                         </li>
                     ))}
