@@ -1,11 +1,8 @@
 import { useState } from 'react'
+import { validateUserInput, createUser } from '../utils/userUtils'
+import type { User } from '../utils/userUtils'
 
-export interface User {
-    id: number
-    name: string
-    hobbies: string
-    created_at: string
-}
+export type { User }
 
 interface Props {
     onSaved: (user: User) => void
@@ -18,18 +15,13 @@ export default function UserForm({ onSaved }: Props) {
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
-        setError('')
-        if (!name.trim() || !hobbies.trim()) {
-            setError('Both fields are required.')
+        const validationError = validateUserInput(name, hobbies)
+        if (validationError) {
+            setError(validationError)
             return
         }
-        const user: User = {
-            id: Date.now(),
-            name: name.trim(),
-            hobbies: hobbies.trim(),
-            created_at: new Date().toISOString(),
-        }
-        onSaved(user)
+        setError('')
+        onSaved(createUser(name, hobbies))
         setName('')
         setHobbies('')
     }

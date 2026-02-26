@@ -1,4 +1,4 @@
-import type { User } from './UserForm'
+import type { User } from '../utils/userUtils'
 
 interface Props {
     users: User[]

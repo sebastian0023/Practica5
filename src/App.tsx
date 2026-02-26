@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import UserForm from './components/UserForm'
-import type { User } from './components/UserForm'
 import UserList from './components/UserList'
+import type { User } from './utils/userUtils'
+import { deleteUser } from './utils/userUtils'
 import './App.css'
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
   }
 
   function handleDelete(id: number) {
-    setUsers((prev) => prev.filter((u) => u.id !== id))
+    setUsers((prev) => deleteUser(prev, id))
   }
 
   return (
