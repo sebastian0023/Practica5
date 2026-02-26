@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: DeployDev
+    name: CI
     runs-on: ubuntu-latest
 
     steps:
@@ -34,7 +34,7 @@ jobs:
           path: dist/
 
   release:
-    name: DeliveryDev
+    name: CD
     runs-on: ubuntu-latest
     needs: build
     environment: dev
