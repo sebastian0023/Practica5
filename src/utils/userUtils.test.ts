@@ -1,4 +1,4 @@
-import { validateUserInput, createUser, deleteUser } from '../utils/userUtils'
+import { validateUserInput, createUser, deleteUser, resetIdCounter } from '../utils/userUtils'
 import type { User } from '../utils/userUtils'
 
 describe('validateUserInput', () => {
@@ -24,6 +24,8 @@ describe('validateUserInput', () => {
 })
 
 describe('createUser', () => {
+    beforeEach(() => resetIdCounter())
+
     it('trims whitespace from name and hobbies', () => {
         const user = createUser('  Ana  ', '  coding  ')
         expect(user.name).toBe('Ana')
@@ -44,7 +46,8 @@ describe('createUser', () => {
     it('generates unique ids for different calls', () => {
         const user1 = createUser('Ana', 'coding')
         const user2 = createUser('Carlos', 'painting')
-        expect(user1.id).not.toBe(user2.id)
+        expect(user1.id).toBe(1)
+        expect(user2.id).toBe(2)
     })
 })
 

@@ -5,6 +5,9 @@ export interface User {
     created_at: string
 }
 
+let _nextId = 1
+export function resetIdCounter() { _nextId = 1 } // exposed for tests
+
 /**
  * Validates the user form inputs.
  * Returns an error message string, or null if valid.
@@ -21,7 +24,7 @@ export function validateUserInput(name: string, hobbies: string): string | null 
  */
 export function createUser(name: string, hobbies: string): User {
     return {
-        id: Date.now(),
+        id: _nextId++,
         name: name.trim(),
         hobbies: hobbies.trim(),
         created_at: new Date().toISOString(),
