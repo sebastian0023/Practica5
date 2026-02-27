@@ -32,9 +32,26 @@ jobs:
               with:
                 name: dist
                 path: dist/
+    deploy:
+        name: CD
+        needs: build
+        runs-on: ubuntu-latest
+        environment: dev
+
+        steps:
+            - name: Download build artifact
+              uses: actions/download-artifact@v4
+              with:
+                name: dist
+                path: dist/
+
+            - name: Deploy dev
+              uses: cloudflare/wrangler-action@v3
+              with:
+                api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+                command: deploy dist/practice4/index.js --compatibility-date 2026-02-26 --compatibility-flags=nodejs_compat --assets-dir dist/practice4/client
                 
-
-
 
 
 
