@@ -39,10 +39,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: DEV
 
-    permissions:
-      id-token: write
-      contents: read
-
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
@@ -55,12 +51,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy dist/practice4/index.js --compatibility-date 2026-02-26 --compatibility-flags=nodejs_compat --assets dist/client
-                
-
-
-
-
-            
-
-        
+          command: deploy dist/practice4/index.js --name blue-shadow-59f1 --compatibility-date 2026-02-26 --compatibility-flags=nodejs_compat --assets dist/client
