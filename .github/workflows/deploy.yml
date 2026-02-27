@@ -4,10 +4,6 @@ on:
   push:
     branches: [ main ]
 
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
   build:
     name: CI
@@ -42,6 +38,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     environment: dev
+
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       - name: Download artifact
