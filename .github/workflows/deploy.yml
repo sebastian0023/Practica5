@@ -37,7 +37,7 @@ jobs:
     name: CD
     needs: build
     runs-on: ubuntu-latest
-    environment: dev
+    environment: DEV
 
     permissions:
       id-token: write
